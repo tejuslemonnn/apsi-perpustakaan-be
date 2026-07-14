@@ -20,12 +20,18 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-    'https://apsi-perpustakaan-fe-production.up.railway.app',
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
+        'https://apsi-perpustakaan-fe-production.up.railway.app',
+        'https://apsi-perpustakaan-fe.vercel.app',
+        // Allow all Vercel preview deployments (e.g. feat-x.vercel.app)
+        // Matched via allowed_origins_patterns below.
+        'http://localhost:5173',
+        'http://127.0.0.1:5173',
     ],
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => [
+        // Vercel preview/production: <branch>-<team>.vercel.app and <project>.vercel.app
+        '#^https://[a-z0-9-]+\.vercel\.app$#i',
+    ],
 
     'allowed_headers' => ['*'],
 
