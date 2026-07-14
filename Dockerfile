@@ -1,7 +1,7 @@
 FROM dunglas/frankenphp:php8.4-bookworm
 
 RUN install-php-extensions \
-    ctype curl dom fileinfo filter hash mbstring openssl pcre pdo pdo_mysql session tokenizer xml intl bcmath
+    ctype curl dom fileinfo filter hash mbstring openssl pcre pdo pdo_mysql session tokenizer xml intl bcmath zip
 
 WORKDIR /app
 
