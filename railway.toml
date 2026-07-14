@@ -3,10 +3,11 @@ builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
 
 [deploy]
-# FrankenPHP is the long-running process. EXPOSE 8080 is set in the Dockerfile,
-# but Railway injects its own PORT — the Dockerfile's CMD resolves $PORT at
-# runtime so the SERVER_NAME directive matches.
-startCommand = "frankenphp php-server -r public/ -e SERVER_NAME=:${PORT:-8080}"
+# Run migration + cache on every start. Idempotent (safe to re-run).
+# Runs INSIDE the Railway container, where the private MySQL hostname
+# mysql.railway.internal (or $DB_HOST) is resolvable. Local machines
+# cannot reach the private network, so migrations must run in-container.
+startCommand = "php artisan migrate --force --no-interaction && php artisan config:cache && php artisan route:cache && SERVER_NAME=:${PORT:-8080} exec frankenphp php-server -r public/"
 
 # Healthcheck: hit the /up endpoint that Laravel registers by default.
 # 200 = healthy, otherwise Railway restarts the container.
