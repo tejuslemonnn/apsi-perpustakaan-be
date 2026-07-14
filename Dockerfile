@@ -1,4 +1,4 @@
-FROM dunglas/frankenphp:php8.4-bookwork
+FROM dunglas/frankenphp:php8.4-bookworm
 
 RUN install-php-extensions \
     ctype curl dom fileinfo filter hash mbstring openssl pcre pdo pdo_mysql session tokenizer xml intl bcmath zip
@@ -16,8 +16,6 @@ RUN composer dump-autoload --optimize --no-dev
 # Storage/cache harus writable oleh user FrankenPHP
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
 
-# TIDAK ADA ENV SERVER_NAME — akan di-set runtime
-# EXPOSE tidak wajib, tapi Railway pakai untuk healthcheck
 EXPOSE 8080
 
 # Runtime: SERVER_NAME di-resolve dari $PORT yang Railway inject
